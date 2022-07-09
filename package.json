@@ -1,0 +1,18 @@
+{
+  "name": "Store",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ahmedrafaat700870/Store.git",
+  "author": "Ahmed Rafaat <71382395+ahmedrafaat700870@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ./src/index.ts",
+    "build": "tsc",
+    "dev":"yarn build && node ./dist/index.js"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  }
+}
