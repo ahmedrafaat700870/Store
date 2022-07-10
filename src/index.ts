@@ -1,1 +1,3 @@
-console.log("done ali");
+type NewName = string;
+const Name = 'ahmed';
+console.log(Name);
