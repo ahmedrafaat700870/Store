@@ -3,6 +3,8 @@ import rateLimit, { MemoryStore } from 'express-rate-limit';
 import morgan from 'morgan';
 import helemt from 'helmet';
 import { HeddleError } from './middlewares/error.middleware';
+import config from './config';
+const app: Application = express();
 const ApiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -11,20 +13,15 @@ const ApiLimiter = rateLimit({
   message: 'Too many requests from this IP, please try again in 15 minutes ',
   statusCode: 429,
 });
-import { Error } from './interfaces/Error.interface';
-const app: Application = express();
 app.use(helemt());
 app.use(morgan('common'));
 app.use(ApiLimiter);
 app.use(express.json());
-const PORT = 3000;
+const PORT = config.port || 3000;
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Hello World! 🌍' });
 });
 app.post('/', (req: Request, res: Response) => {
-  const error: Error = new Error('Something went wrong 😢');
-  error.status = 400;
-  throw error;
   res.json({
     message: 'Hello World! 🌍 from post',
     body: req.body,
