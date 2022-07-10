@@ -15,6 +15,6 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
-    'prettier/prettier': 2, // means error
+    'prettier/prettier': 0, // means error
   },
 };
