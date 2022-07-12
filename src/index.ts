@@ -1,9 +1,10 @@
 import express, { Application, Request, Response } from 'express';
 import rateLimit, { MemoryStore } from 'express-rate-limit';
 import morgan from 'morgan';
-import helemt from 'helmet';
+import helmet from 'helmet';
 import { HeddleError } from './middlewares/error.middleware';
 import config from './config';
+import router from './routes';
 const app: Application = express();
 const ApiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -13,20 +14,12 @@ const ApiLimiter = rateLimit({
   message: 'Too many requests from this IP, please try again in 15 minutes ',
   statusCode: 429,
 });
-app.use(helemt());
+const PORT = config.port || 3000;
+app.use(helmet());
 app.use(morgan('common'));
 app.use(ApiLimiter);
 app.use(express.json());
-const PORT = config.port || 3000;
-app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Hello World! 🌍' });
-});
-app.post('/', (req: Request, res: Response) => {
-  res.json({
-    message: 'Hello World! 🌍 from post',
-    body: req.body,
-  });
-});
+app.use('/api', router);
 app.use(HeddleError);
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ message: 'Not Found 😅' });
